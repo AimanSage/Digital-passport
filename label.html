@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Product Passport - NNTN8560B</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        body { background-color: #0f0f10; color: #f5f5f5; padding: 15px; display: flex; justify-content: center; }
+        
+        .label-container { 
+            background: #000000; 
+            border: 2px solid #2a2a2a; 
+            border-radius: 16px; 
+            max-width: 420px; 
+            width: 100%; 
+            padding: 20px; 
+            box-shadow: 0 12px 30px rgba(0,0,0,0.7); 
+        }
+
+        /* Top Terminal Polarity Bar */
+        .polarity-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            background: #18181b;
+            border-radius: 8px;
+            padding: 6px;
+            margin-bottom: 12px;
+            font-weight: 900;
+            font-size: 14px;
+            color: #fff;
+            border: 1px dashed #333;
+        }
+
+        /* Motorola Header Branding */
+        .header { 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            border-bottom: 2px solid #222; 
+            padding-bottom: 14px; 
+            margin-bottom: 16px; 
+        }
+        .brand-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .status-badge { 
+            font-size: 10px; 
+            background: #16a34a; 
+            color: #fff; 
+            padding: 3px 8px; 
+            border-radius: 12px; 
+            font-weight: 700; 
+            letter-spacing: 0.5px; 
+        }
+
+        /* Product Title */
+        .model-title { font-size: 20px; font-weight: 800; color: #38bdf8; margin-bottom: 2px; }
+        .sub-title { font-size: 12px; color: #94a3b8; font-weight: 500; margin-bottom: 16px; }
+
+        /* Hardware Specs Grid */
+        .spec-grid { 
+            background: #121212; 
+            border: 1px solid #222; 
+            border-radius: 10px; 
+            padding: 12px; 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 12px 10px; 
+            margin-bottom: 18px; 
+        }
+        .spec-item { display: flex; flex-direction: column; }
+        .spec-label { font-size: 10px; color: #64748b; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; }
+        .spec-value { font-size: 13px; font-weight: 600; color: #f1f5f9; margin-top: 2px; }
+
+        /* Section Dividers */
+        .section-header { 
+            font-size: 11px; 
+            font-weight: 800; 
+            text-transform: uppercase; 
+            color: #94a3b8; 
+            margin: 18px 0 10px 0; 
+            border-left: 3px solid #38bdf8; 
+            padding-left: 8px; 
+            letter-spacing: 0.8px;
+        }
+
+        /* Dynamic Grid for Extracted Logos */
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .icon-card {
+            background: #121212;
+            border: 1px solid #262626;
+            border-radius: 8px;
+            padding: 10px 4px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 75px;
+        }
+        .icon-svg {
+            width: 32px;
+            height: 32px;
+            fill: #ffffff;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .icon-label {
+            font-size: 9px;
+            font-weight: 600;
+            color: #a3a3a3;
+            line-height: 1.1;
+        }
+
+        /* Horizontal Language Selector Bar */
+        .lang-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            background: #121212;
+            border: 1px solid #333;
+            border-radius: 8px 8px 0 0;
+            overflow: hidden;
+            margin-bottom: 0;
+        }
+        .lang-tab {
+            background: #000;
+            color: #888;
+            border: none;
+            border-right: 1px solid #222;
+            padding: 10px 2px;
+            font-size: 9px;
+            font-weight: 800;
+            text-transform: uppercase;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+        .lang-tab:last-child {
+            border-right: none;
+        }
+        .lang-tab.active {
+            background: #1c1917;
+            color: #f59e0b;
+            border-bottom: 2px solid #f59e0b;
+        }
+
+        /* Dynamic Warning Box Linked to Tabs */
+        .warning-box { 
+            background: #1c1917; 
+            border: 1px solid #d97706; 
+            border-top: none;
+            border-radius: 0 0 8px 8px; 
+            padding: 14px; 
+            margin-bottom: 16px; 
+            font-size: 12px; 
+            color: #fef08a; 
+            line-height: 1.4;
+        }
+        .warning-title { 
+            font-weight: 800; 
+            font-size: 13px; 
+            color: #f59e0b;
+            margin-bottom: 8px; 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+            text-transform: uppercase;
+        }
+
+        /* Manual Link Button */
+        .manual-btn {
+            display: block;
+            background: #f59e0b;
+            color: #000;
+            text-decoration: none;
+            text-align: center;
+            font-weight: 800;
+            font-size: 11px;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 12px;
+            letter-spacing: 0.5px;
+            transition: background 0.2s;
+        }
+        .manual-btn:hover {
+            background: #d97706;
+        }
+
+        /* Footer Section */
+        .footer { 
+            font-size: 10px; 
+            color: #52525b; 
+            text-align: center; 
+            margin-top: 20px; 
+            padding-top: 12px; 
+            border-top: 1px solid #18181b; 
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+<div class="label-container">
+    <!-- Terminal Polarity Symbols -->
+    <div class="polarity-bar">
+        <span>⊕</span> <span>[ C ]</span> <span>⊖</span>
+    </div>
+
+    <!-- Header: Official Motorola Batwing Logo -->
+    <div class="header">
+        <div class="brand-container">
+            <svg viewBox="0 0 320 60" style="height: 28px; width: auto;">
+                <circle cx="30" cy="30" r="28" fill="#ffffff"/>
+                <path d="M 12 43 C 12 43 17 26 21 12 L 22 12 C 24 22 28 32 30 36 C 32 32 36 22 38 12 L 39 12 C 43 26 48 43 48 43 C 43 33 38 29 35 34 C 33 37 31 43 30 43 C 29 43 27 37 25 34 C 22 29 17 33 12 43 Z" fill="#000000"/>
+                <text x="72" y="42" font-family="'Arial Black', 'Helvetica Neue', sans-serif" font-weight="900" font-style="italic" font-size="31" fill="#ffffff" letter-spacing="1">MOTOROLA</text>
+            </svg>
+        </div>
+        <span class="status-badge">VERIFIED</span>
+    </div>
+
+    <!-- Product Details & IMPRES Logo -->
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 12px;">
+        <div>
+            <div class="model-title">NNTN8560B</div>
+            <div class="sub-title">7.2V Rechargeable Lithium-Ion Battery</div>
+        </div>
+        <div style="padding-bottom: 16px;">
+            <svg viewBox="0 0 120 30" style="height: 18px; width: auto;">
+                <text x="0" y="22" font-family="'Arial Black', sans-serif" font-weight="900" font-size="22" font-style="italic" fill="#ffffff" letter-spacing="1">IMPRES</text>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Technical Specs Grid -->
+    <div class="spec-grid">
+        <div class="spec-item"><span class="spec-label">Serial Number</span><span class="spec-value">500001234567</span></div>
+        <div class="spec-item"><span class="spec-label">MFG Date</span><span class="spec-value">04/2026</span></div>
+        <div class="spec-item"><span class="spec-label">Capacity</span><span class="spec-value">2500 mAh / 18.0 Wh</span></div>
+        <div class="spec-item"><span class="spec-label">Charge Limit</span><span class="spec-value">8.4V</span></div>
+        <div class="spec-item"><span class="spec-label">Chemistry</span><span class="spec-value">2INR19/66</span></div>
+        <div class="spec-item"><span class="spec-label">Weight</span><span class="spec-value">168g</span></div>
+        <div class="spec-item"><span class="spec-label">Kit / Code</span><span class="spec-value">2644 ATN8</span></div>
+        <div class="spec-item"><span class="spec-label">Cell Origin</span><span class="spec-value">Japan</span></div>
+    </div>
+
+    <!-- Regulatory Certifications Section -->
+    <div class="section-header">Compliance Marks</div>
+    <div class="icon-grid">
+        <div class="icon-card">
+            <div class="icon-svg">
+                <svg viewBox="0 0 100 100">
+                    <path d="M 45 15 A 35 35 0 0 0 45 85 M 20 50 L 52 50 M 95 15 A 35 35 0 0 0 95 85 M 68 50 L 100 50" stroke="#ffffff" stroke-width="10" fill="none"/>
+                </svg>
+            </div>
+            <span class="icon-label">CE Europe</span>
+        </div>
+
+        <div class="icon-card">
+            <div class="icon-svg" style="font-family: 'Arial Black', sans-serif; font-weight: 900; font-size: 15px; line-height: 0.9; flex-direction: column; justify-content: center;">
+                <div>UK</div><div>CA</div>
+            </div>
+            <span class="icon-label">UKCA Mark</span>
+        </div>
+
+        <div class="icon-card">
+            <div class="icon-svg" style="width: 45px;">
+                <svg viewBox="0 0 120 60">
+                    <text x="0" y="42" font-family="Arial, sans-serif" font-weight="bold" font-size="28" fill="#ffffff">c</text>
+                    <path d="M 25 10 L 40 10 L 40 35 C 40 45 30 50 20 45 C 10 40 15 25 15 25 L 25 25 C 25 25 22 35 28 36 C 32 37 32 25 32 10 Z" fill="#ffffff"/>
+                    <path d="M 45 10 L 55 10 L 55 35 C 55 45 70 45 70 35 L 70 10 L 80 10 L 80 35 C 80 52 45 52 45 35 Z" fill="#ffffff"/>
+                    <text x="85" y="48" font-family="Arial, sans-serif" font-weight="bold" font-size="22" fill="#ffffff">us</text>
+                </svg>
+            </div>
+            <span class="icon-label">cURus Safety</span>
+        </div>
+
+        <div class="icon-card">
+            <div class="icon-svg" style="font-family: 'Arial Black', sans-serif; font-weight: 900; font-size: 14px; color: #38bdf8;">
+                IP68
+            </div>
+            <span class="icon-label">Submersible</span>
+        </div>
+    </div>
+
+    <!-- Handling & Environmental Symbols -->
+    <div class="section-header">Environmental & Safety Logos</div>
+    <div class="icon-grid">
+        <div class="icon-card">
+            <div class="icon-svg">
+                <svg viewBox="0 0 100 100">
+                    <rect x="30" y="30" width="40" height="55" rx="3" stroke="#ffffff" stroke-width="6" fill="none"/>
+                    <line x1="25" y1="24" x2="75" y2="24" stroke="#ffffff" stroke-width="6"/>
+                    <rect x="42" y1="16" width="16" height="8" stroke="#ffffff" stroke-width="5" fill="none"/>
+                    <circle cx="68" cy="73" r="5" fill="#ffffff"/>
+                    <line x1="15" y1="15" x2="85" y2="85" stroke="#ffffff" stroke-width="8"/>
+                    <line x1="85" y1="15" x2="15" y2="85" stroke="#ffffff" stroke-width="8"/>
+                </svg>
+            </div>
+            <span class="icon-label">WEEE Waste</span>
+        </div>
+
+        <div class="icon-card">
+            <div class="icon-svg" style="font-family: Arial, sans-serif; font-weight: bold; font-size: 20px;">
+                Pb
+            </div>
+            <span class="icon-label">Heavy Metal</span>
+        </div>
+
+        <div class="icon-card">
+            <div class="icon-svg">
+                <svg viewBox="0 0 100 100">
+                    <path d="M 50 18 C 50 18, 62 32, 62 44 C 62 50, 58 56, 50 56 C 44 56, 38 50, 38 44 C 38 36, 46 26, 50 18 Z M 44 68 C 30 68, 26 52, 34 40 C 30 46, 30 54, 38 58 C 42 60, 48 60, 50 54 C 52 60, 58 60, 62 58 C 70 54, 70 46, 66 40 C 74 52, 70 68, 56 68 Z" fill="#ffffff"/>
+                    <circle cx="50" cy="50" r="42" stroke="#ffffff" stroke-width="6" fill="none"/>
+                    <line x1="20" y1="20" x2="80" y2="80" stroke="#ffffff" stroke-width="7"/>
+                </svg>
+            </div>
+            <span class="icon-label">Do Not Burn</span>
+        </div>
+
+        <div class="icon-card">
+            <div class="icon-svg">
+                <svg viewBox="0 0 100 100">
+                    <polygon points="50,10 90,85 10,85" stroke="#ffffff" stroke-width="7" fill="none"/>
+                    <line x1="50" y1="35" x2="50" y2="60" stroke="#ffffff" stroke-width="8" stroke-linecap="round"/>
+                    <circle cx="50" cy="72" r="5" fill="#ffffff"/>
+                </svg>
+            </div>
+            <span class="icon-label">Caution</span>
+        </div>
+    </div>
+
+    <!-- Safety Instruction Header -->
+    <div class="section-header">Safety Warning & Manual</div>
+
+    <!-- Horizontal Language Selector Bar -->
+    <div class="lang-bar">
+        <button class="lang-tab active" onclick="setLang('en', this)">ENGLISH</button>
+        <button class="lang-tab" onclick="setLang('fr', this)">FRANÇAIS</button>
+        <button class="lang-tab" onclick="setLang('es', this)">ESPAÑOL</button>
+        <button class="lang-tab" onclick="setLang('pt', this)">PORTUGUÊS</button>
+    </div>
+
+    <!-- Dynamic Warning Box Linked to Language Tabs -->
+    <div class="warning-box">
+        <div class="warning-title">
+            <svg style="width: 16px; height: 16px;" viewBox="0 0 100 100">
+                <polygon points="50,10 90,85 10,85" stroke="#f59e0b" stroke-width="10" fill="none"/>
+                <line x1="50" y1="35" x2="50" y2="60" stroke="#f59e0b" stroke-width="10"/>
+                <circle cx="50" cy="72" r="6" fill="#f59e0b"/>
+            </svg>
+            <span id="warn-header">CAUTION</span>
+        </div>
+        <div id="warn-body">To prevent injury, read safety manual before use.</div>
+        <a href="http://www.motorolasolutions.com/battery" target="_blank" class="manual-btn" id="warn-btn">
+            📖 READ BATTERY SAFETY MANUAL
+        </a>
+    </div>
+
+    <!-- Entity Contacts -->
+    <div class="section-header">Entity Contacts & Origin</div>
+    <div style="font-size: 11px; color: #71717a; line-height: 1.5; margin-bottom: 12px; background: #121212; padding: 10px; border-radius: 6px; border: 1px solid #222;">
+        <strong>Finished In:</strong> Malaysia<br>
+        <strong>EU Contact:</strong> Motorola Solutions, Czerwone Maki 82, 30-392 Krakow, Poland<br>
+        <strong>UK Contact:</strong> Motorola Solutions, 160 Victoria St, London, SW1E 5LB, U.K.
+    </div>
+
+    <div class="footer">
+        Digital Product Passport ID: NNTN8560B-2844-ATN8<br>
+        © Motorola Solutions / Manufacturing Traceability Web Engine
+    </div>
+</div>
+
+<script>
+    const langData = {
+        en: {
+            header: "CAUTION",
+            body: "To prevent injury, read safety manual before use.",
+            btn: "📖 READ BATTERY SAFETY MANUAL"
+        },
+        fr: {
+            header: "ATTENTION",
+            body: "Pour éviter toute blessure, lire le manuel avant l'utilisation.",
+            btn: "📖 LIRE LE MANUEL DE SÉCURITÉ"
+        },
+        es: {
+            header: "PRECAUCIÓN",
+            body: "Para prevenir daños, lea el manual antes de usar.",
+            btn: "📖 LEER EL MANUAL DE SEGURIDAD"
+        },
+        pt: {
+            header: "ATENÇÃO",
+            body: "Para prevenir danos, leia o manual antes do uso.",
+            btn: "📖 LER O MANUAL DE SEGURANÇA"
+        }
+    };
+
+    function setLang(langKey, element) {
+        document.querySelectorAll('.lang-tab').forEach(tab => tab.classList.remove('active'));
+        element.classList.add('active');
+
+        const data = langData[langKey];
+        document.getElementById('warn-header').textContent = data.header;
+        document.getElementById('warn-body').textContent = data.body;
+        document.getElementById('warn-btn').textContent = data.btn;
+    }
+</script>
+
+</body>
+</html>
